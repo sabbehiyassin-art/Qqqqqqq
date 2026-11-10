@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع الترجمة والنطق</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: none;
+            margin-bottom: 20px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-translate {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-translate:hover {
+            background-color: #218838;
+        }
+        .btn-speak {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-speak:hover {
+            background-color: #0069d9;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            min-height: 50px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>مساعدك الذكي</h1>
+    <textarea id="input-text" placeholder="اكتب النص هنا..."></textarea>
+    <div class="buttons">
+        <button class="btn-translate" onclick="processText()">ترجمة</button>
+        <button class="btn-speak" onclick="speakText()">استمع</button>
+    </div>
+    <div class="output" id="output-display">النتيجة ستظهر هنا...</div>
+</div>
+
+<script>
+    function processText() {
+        const input = document.getElementById('input-text').value;
+        const outputDisplay = document.getElementById('output-display');
+        
+        if (!input.trim()) {
+            outputDisplay.innerText = "الرجاء كتابة نص أولاً.";
+            return;
+        }
+
+        // محاكاة الترجمة إلى لهجة تونسية (يمكن ربطها بـ API حقيقي لاحقاً)
+        let translatedText = input;
+        if (input.includes("مرحبا")) {
+            translatedText = input.replace("مرحبا", "يعيشك، شنوة احوالك");
+        } else {
+            translatedText = "هذه ترجمة تجريبية لعبارة: " + input;
+        }
+        
+        outputDisplay.innerText = translatedText;
+    }
+
+    function speakText() {
+        const textToSpeak = document.getElementById('output-display').innerText;
+        if (!textToSpeak || textToSpeak.includes("النتيجة ستظهر")) {
+            alert("قم بالترجمة أولاً للنطق.");
+            return;
+        }
+        
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = 'ar-TN'; // تحديد اللهجة التونسية
+        utterance.rate = 1.0; // سرعة الكلام
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+
+</body>
+</html>
